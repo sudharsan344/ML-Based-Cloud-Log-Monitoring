@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cyber SOC Dashboard</title>
+
+<link rel="stylesheet" href="/static/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+</head>
+
+<body>
+
+<h1>🚀 CYBER SECURITY OPERATIONS CENTER</h1>
+
+<div class="stats">
+    <div class="card"><h3>Total</h3><h1 id="total">0</h1></div>
+    <div class="card red"><h3>Threats</h3><h1 id="threats">0</h1></div>
+    <div class="card green"><h3>Normal</h3><h1 id="normal">0</h1></div>
+    <div class="card yellow"><h3>Rate</h3><h1 id="rate">0%</h1></div>
+</div>
+
+<div class="buttons">
+<button onclick="simulate()">SIMULATE</button>
+<button onclick="burst()">BURST x10</button>
+<button onclick="clearLogs()">CLEAR</button>
+</div>
+
+<div class="panel">
+<h2>📊 Threat Timeline</h2>
+<canvas id="chartCanvas"></canvas>
+</div>
+
+<div class="panel">
+<h2>🌍 Attack Map</h2>
+<div id="map"></div>
+</div>
+
+<div class="panel">
+<h2>💻 Live Terminal</h2>
+<div id="terminal"></div>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>TIME</th>
+<th>IP</th>
+<th>ACTIVITY</th>
+<th>STATUS</th>
+<th>SCORE</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+
+<script src="/static/script.js"></script>
+
+</body>
+</html>

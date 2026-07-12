@@ -1,0 +1,81 @@
+body {
+    background: radial-gradient(circle at center, #020617, #000);
+    color: #00e5ff;
+    font-family: monospace;
+    text-align: center;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(#0f172a 1px, transparent 1px),
+                      linear-gradient(90deg, #0f172a 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.2;
+    z-index: -1;
+}
+
+h1 {
+    text-shadow: 0 0 20px #00e5ff;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px;
+}
+
+.card {
+    background: #0f172a;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px #00e5ff33;
+}
+
+.red { color: #ff0040; }
+.green { color: #00ff66; }
+.yellow { color: #ffd000; }
+
+.buttons button {
+    margin: 10px;
+    padding: 10px 20px;
+    background: #00e5ff;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 0 10px #00e5ff;
+}
+
+.panel {
+    background: #0f172a;
+    margin: 20px;
+    padding: 15px;
+    border-radius: 12px;
+}
+
+#map { height: 300px; }
+
+#terminal {
+    height: 180px;
+    overflow-y: auto;
+    color: #00ff66;
+    background: black;
+    padding: 10px;
+    text-align: left;
+    box-shadow: inset 0 0 10px #00ff66;
+}
+
+table {
+    width: 90%;
+    margin: auto;
+    border-collapse: collapse;
+}
+
+td, th {
+    padding: 10px;
+    border-bottom: 1px solid #1e293b;
+}
+
+.threat { color: #ff0040; }
+.normal { color: #00ff66; }
