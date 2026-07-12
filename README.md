@@ -16,103 +16,153 @@ The system combines machine learning techniques with encrypted log storage to en
 - Improve cloud security by identifying suspicious activities.
 - Provide early alerts for potential cyber threats.
 
----
+## Quick Start (VS Code)
 
-## 🛠️ Technologies Used
-
-- Python
-- Machine Learning
-- Scikit-learn
-- Pandas
-- NumPy
-- Flask / FastAPI *(use the one you actually used)*
-- Cloud Computing
-- Encryption
-- Git & GitHub
-
----
-
-## ✨ Features
-
-- Real-time cloud log monitoring
-- Machine learning-based anomaly detection
-- Secure encrypted log storage
-- Threat identification and alert generation
-- User-friendly monitoring interface
-- Data preprocessing and feature extraction
-
----
-
-## 📂 Project Structure
-
+### Step 1 — Open Terminal in VS Code
 ```
-Intelligent-Encrypted-Cloud-Log-Monitoring/
-│── app.py
-│── model/
-│── dataset/
-│── templates/
-│── static/
-│── requirements.txt
-│── README.md
+Ctrl + ` (backtick)
 ```
 
----
+### Step 2 — Create & Activate Virtual Environment
+```bash
+# Windows
+python -m venv venv
+venv\Scripts\activate
 
-## 🚀 How to Run
+# macOS / Linux
+python3 -m venv venv
+source venv/bin/activate
+```
 
-1. Clone the repository.
-2. Install the required dependencies:
-
+### Step 3 — Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Run the application:
-
+### Step 4 — Start the Backend Server
 ```bash
-python app.py
+uvicorn main:app --reload
 ```
 
-4. Open the application in your browser.
-
----
-
-## 📊 Workflow
-
+You should see:
 ```
-Cloud Logs
-      │
-      ▼
-Data Collection
-      │
-      ▼
-Data Preprocessing
-      │
-      ▼
-Machine Learning Model
-      │
-      ▼
-Anomaly Detection
-      │
-      ▼
-Encrypted Log Storage
-      │
-      ▼
-Alerts & Dashboard
+[DB]  Database initialised → threat_logs.db
+[ML]  Isolation Forest trained on 500 baseline samples
+[APP] Server ready at http://127.0.0.1:8000
+[APP] Dashboard at  http://127.0.0.1:8000/dashboard
+```
+
+### Step 5 — Open the Dashboard
+Open your browser and go to:
+```
+http://127.0.0.1:8000/dashboard
 ```
 
 ---
 
-## 📚 Skills Demonstrated
+## Email Alerts (Optional)
 
-- Python Programming
-- Machine Learning
-- Data Preprocessing
-- Cybersecurity
-- Cloud Computing
-- Encryption
-- Data Analysis
-- Model Development
+To enable real email alerts, edit these lines in `main.py`:
+
+```python
+EMAIL_SENDER   = "your_email@gmail.com"
+EMAIL_PASSWORD = "your_gmail_app_password"   # NOT your regular password
+EMAIL_RECEIVER = "receiver@gmail.com"
+SEND_EMAILS    = True
+```
+
+**How to get a Gmail App Password:**
+1. Go to myaccount.google.com → Security
+2. Enable 2-Step Verification
+3. Search "App Passwords" → Generate one for "Mail"
+4. Use that 16-character password above
+
+---
+
+## API Endpoints
+
+| Method | Endpoint           | Description                          |
+|--------|--------------------|--------------------------------------|
+| GET    | /                  | Health check + endpoint list         |
+| GET    | /dashboard         | Serve frontend HTML                  |
+| GET    | /simulate          | Simulate 1 traffic event             |
+| GET    | /simulate/burst    | Simulate N events (?count=10)        |
+| GET    | /logs              | Get logs (?limit=50)                 |
+| GET    | /stats             | Aggregate statistics                 |
+| GET    | /graph             | Matplotlib chart as base64 PNG       |
+| DELETE | /logs/clear        | Clear all database logs              |
+
+### Test via Browser (API Docs)
+FastAPI auto-generates interactive API docs at:
+```
+http://127.0.0.1:8000/docs
+```
+
+---
+
+## How the ML Works
+
+1. **Training**: At startup, 500 "normal" traffic samples are generated from typical activities (Login, API, DNS) and used to train the Isolation Forest model.
+
+2. **Feature Vector** per event:
+   - Activity type (label-encoded)
+   - IP type (internal=1, external=0)
+   - Port range (high port=1)
+   - Bytes transferred (normalised)
+   - Hour of day (normalised)
+
+3. **Scoring**: The Isolation Forest assigns an anomaly score. Combined with per-activity threat probability, a final score is computed.
+
+4. **Classification**: Score ≥ 0.55 → **THREAT**, else **NORMAL**
+
+---
+
+## Demo Flow (for Review Presentation)
+
+1. Start server: `uvicorn main:app --reload`
+2. Open: `http://127.0.0.1:8000/dashboard`
+3. Click **[ SIMULATE TRAFFIC ]** — show single event detection
+4. Click **[ BURST ×10 ]** — show live table + chart update
+5. Click **[ BURST ×25 ]** — show statistics populate
+6. Click **[ GENERATE GRAPH ]** — show Matplotlib visualization
+7. Open `http://127.0.0.1:8000/docs` — show FastAPI Swagger UI
+8. Show `threat_logs.db` in VS Code with SQLite Viewer extension
+
+---
+
+## Technologies Used
+
+| Layer          | Technology                    |
+|----------------|-------------------------------|
+| Backend        | Python, FastAPI, Uvicorn      |
+| ML Model       | Isolation Forest (scikit-learn)|
+| Database       | SQLite (built-in)             |
+| Visualization  | Matplotlib                    |
+| Frontend       | HTML, CSS, JavaScript         |
+| Charts (UI)    | Chart.js                      |
+| Alert System   | SMTP (Gmail)                  |
+| API Testing    | FastAPI Swagger UI /docs      |
+
+---
+
+## VS Code Extensions (Recommended)
+
+- **Python** (Microsoft)
+- **SQLite Viewer** — to inspect threat_logs.db
+- **REST Client** — to test API endpoints
+- **Pylance** — Python IntelliSense
+
+---
+
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| `uvicorn not found` | Run `pip install -r requirements.txt` |
+| `CORS error` in browser | Make sure backend is running on port 8000 |
+| `ModuleNotFoundError` | Activate your virtual environment first |
+| Email not sending | Check Gmail App Password + set SEND_EMAILS=True |
+| Charts not loading | Check browser console, ensure Chart.js CDN loads |
 
 ---
 
@@ -124,7 +174,6 @@ Alerts & Dashboard
 - Interactive dashboard
 - Email and SMS alert notifications
 
----
 
 ## 👨‍💻 Author
 
@@ -135,3 +184,4 @@ Alerts & Dashboard
 🔗 LinkedIn: https://www.linkedin.com/in/sudharsan344
 
 💻 GitHub: https://github.com/sudharsan344
+
